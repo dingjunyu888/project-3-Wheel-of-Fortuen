@@ -10,7 +10,6 @@ public abstract class WheelOfFortune extends Game{
     String previousGuess = "";
     String hiddenPhrase = "";
     int start = 1;
-    int randomNum = 3;
     public void readPhrase(){
         // Get the phrase from a file of phrases
         try {
@@ -25,10 +24,8 @@ public abstract class WheelOfFortune extends Game{
             readPhrase();
         }
         Random rand = new Random();
-        int r= rand.nextInt(randomNum); // gets 0, 1, or 2
-        randomNum--;
+        int r= rand.nextInt(phraseList.size()); // gets 0, 1, or 2
         this.phrase = phraseList.get(r);
-        phraseList.remove(r);
         System.out.println(phrase);
         start++;
         return phrase;

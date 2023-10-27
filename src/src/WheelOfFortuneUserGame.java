@@ -40,6 +40,7 @@ public class WheelOfFortuneUserGame extends WheelOfFortune{
         }else{
             System.out.println("You Lose");
         }
+        phraseList.remove(phrase);
         GameRecord record = new GameRecord((chance)*10, userId);
         return record;
     }

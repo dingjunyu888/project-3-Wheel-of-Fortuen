@@ -1,17 +1,18 @@
 import java.util.Random;
 
 public class WheelOfFortuneInOrderPlayer implements WheelOfFortunePlayer{
+    private String alphabets;
+    private int index;
+
+    public WheelOfFortuneInOrderPlayer(){
+        alphabets="abcdefghijklmnopqrstuvwxyz";
+    }
     @Override
     //get the next guess from the player
     public char nextGuess(){
-        String order = "abcdefghijklmnopqrstuvwxyz";
-        Character letter;
-        for(int i = 0; i < order.length(); i++){
-            letter = order.charAt(i);
-            if(!previousGuess.toLowerCase().contains(letter.toString())){
-                return letter.toString();
-            }
-        }
+        char letter = alphabets.charAt(index);
+        index++;
+        return letter;
     }
     //an id for player
     @Override
@@ -21,6 +22,6 @@ public class WheelOfFortuneInOrderPlayer implements WheelOfFortunePlayer{
     //reset the player to start a new game
     @Override
     public void reset(){
-
+        index = 0;
     }
 }

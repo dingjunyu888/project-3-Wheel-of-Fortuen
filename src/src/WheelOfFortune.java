@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class WheelOfFortune extends Game{
-    List<String> phraseList = null;
+    List<String> phraseList;
     String phrase = "";
     String previousGuess = "";
     String hiddenPhrase = "";
-
+    int start = 1;
+    int randomNum = 3;
     public void readPhrase(){
         // Get the phrase from a file of phrases
         try {
@@ -20,16 +21,21 @@ public abstract class WheelOfFortune extends Game{
     }
 
     public String randomPhrase(){
-        readPhrase();
+        if(start == 1) {
+            readPhrase();
+        }
         Random rand = new Random();
-        int r= rand.nextInt(3); // gets 0, 1, or 2
+        int r= rand.nextInt(randomNum); // gets 0, 1, or 2
+        randomNum--;
         this.phrase = phraseList.get(r);
         phraseList.remove(r);
         System.out.println(phrase);
+        start++;
         return phrase;
     }
 
     public String generateHiddenPhrase(){
+        previousGuess = "";
         return hiddenPhrase = this.phrase.replaceAll("[A-Za-z]", "*");
     }
 
@@ -44,5 +50,5 @@ public abstract class WheelOfFortune extends Game{
 
 
 
-    public abstract String getGuess(String previousGuess);
+    public abstract char getGuess(String previousGuess);
 }

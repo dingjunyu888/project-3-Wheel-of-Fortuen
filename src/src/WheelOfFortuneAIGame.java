@@ -26,8 +26,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         //take user id
         System.out.println("Please enter your ID:");
         Scanner id = new Scanner(System.in);
-        String userId = id.nextLine()
-                ;
+        String userId = id.nextLine();
         StringBuilder updatedPhrase = new StringBuilder(hiddenPhrase);
         boolean notOver = true;
         int chance = 10;
@@ -35,14 +34,13 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         System.out.println(hiddenPhrase);
         while(notOver && chance > 0){
             System.out.println("Please enter a letter:");
-            String userInput = getGuess(previousGuess);
-            char guessInput = userInput.charAt(0);
-            if(phrase.toLowerCase().contains(userInput) && !previousGuess.contains(userInput)){
-                updatedPhrase = processGuess(guessInput, updatedPhrase);
+            char userInput = getGuess(previousGuess);
+            if(phrase.toLowerCase().contains(String.valueOf(userInput)) && !previousGuess.contains(String.valueOf(userInput))){
+                updatedPhrase = processGuess(userInput, updatedPhrase);
                 previousGuess += userInput;
-            }else if(!Character.isLetter(guessInput)){
+            }else if(!Character.isLetter(userInput)){
                 System.out.println("Only letter is accepted. You have " + chance + " chances left");
-            }else if(previousGuess.contains(userInput)){
+            }else if(previousGuess.contains(String.valueOf(userInput))){
                 System.out.println("This letter has been guessed previously. Please try another letter. You have " + chance + " chances left");
             }else{
                 chance--;
@@ -65,23 +63,22 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
 
     @Override
     public boolean playNext(){
-        System.out.println("Do you want to play another game? Y/N");
-        Scanner myObj = new Scanner(System.in);
-        String answer = myObj.nextLine().toLowerCase();
-        if(answer == "y"){
+        if(phraseList.size() != 0){
             return true;
-        }else if(answer == "n"){
-            return false;
         }else{
-            System.out.println("Please enter Y for yes or N for no!");
-            return playNext();
+            return false;
         }
     }
 
     @Override
-    public String getGuess(String previousGuess){
-        Random r = new Random();
-        Character c = (char)(r.nextInt(26) + 'a');
-        return c.toString();
+    public char getGuess(String previousGuess){
+        return currentPlayer.nextGuess();
+    }
+
+    public static void main(String [] args) {
+        WheelOfFortuneAIGame games = new WheelOfFortuneAIGame();
+        AllGameRecord record = games.playAll();
+
+        System.out.println(record);  // or call specific functions of record
     }
 }

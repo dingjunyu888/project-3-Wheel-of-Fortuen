@@ -2,6 +2,11 @@ import java.util.ArrayList;
 
 public class AllGameRecord {
     private ArrayList<GameRecord> allGameRecords;
+
+    public AllGameRecord(){
+        allGameRecords = new ArrayList<>();
+    }
+
     public void add (GameRecord record){
         allGameRecords.add(record);
     }
@@ -28,5 +33,15 @@ public class AllGameRecord {
         }
         int average = allScores/playerNum;
         return average;
+    }
+
+
+    @Override
+    public String toString() {
+        String recordPrint = "";
+        for(GameRecord record : allGameRecords){
+            recordPrint += "Player ID : " + record.getPlayerId() + " " + "Player score : " + record.getScore() + "\n";
+        }
+        return "Game records: " + "\n" + recordPrint;
     }
 }

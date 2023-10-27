@@ -1,6 +1,23 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
-public class WheelOfFortuneUserGame extends WheelOfFortune{
+public class WheelOfFortuneAIGame extends WheelOfFortune{
+    ArrayList<WheelOfFortunePlayer> players;
+    WheelOfFortunePlayer currentPlayer;
+
+    public WheelOfFortuneAIGame(){
+        WheelOfFortuneInOrderPlayer wheelOfFortuneInOrderPlayer = new WheelOfFortuneInOrderPlayer();
+        this.players.add(wheelOfFortuneInOrderPlayer);
+    }
+    public WheelOfFortuneAIGame(WheelOfFortunePlayer wheelOfFortunePlayer){
+        this.players.add(wheelOfFortunePlayer);
+    }
+    public WheelOfFortuneAIGame(ArrayList<WheelOfFortunePlayer> wheelOfFortunePlayers){
+        this.players = wheelOfFortunePlayers;
+    }
+
     @Override
     public GameRecord play(){
         super.randomPhrase();
@@ -48,26 +65,23 @@ public class WheelOfFortuneUserGame extends WheelOfFortune{
 
     @Override
     public boolean playNext(){
-        if(phraseList.size() != 0) {
-            System.out.println("Do you want to play another game? Y/N");
-            Scanner myObj = new Scanner(System.in);
-            String answer = myObj.nextLine().toLowerCase();
-            if (answer == "y") {
-                return true;
-            } else if (answer == "n") {
-                return false;
-            } else {
-                System.out.println("Please enter Y for yes or N for no!");
-                return playNext();
-            }
-        }else{
+        System.out.println("Do you want to play another game? Y/N");
+        Scanner myObj = new Scanner(System.in);
+        String answer = myObj.nextLine().toLowerCase();
+        if(answer == "y"){
+            return true;
+        }else if(answer == "n"){
             return false;
+        }else{
+            System.out.println("Please enter Y for yes or N for no!");
+            return playNext();
         }
     }
 
     @Override
     public String getGuess(String previousGuess){
-        Scanner myObj = new Scanner(System.in);
-        return myObj.nextLine();
+        Random r = new Random();
+        Character c = (char)(r.nextInt(26) + 'a');
+        return c.toString();
     }
 }

@@ -56,6 +56,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         if(phraseList.size() != 0){
             return true;
         }else{
+            System.out.println("We ran out phrase! Game Over!");
             return false;
         }
     }

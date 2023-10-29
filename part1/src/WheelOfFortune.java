@@ -69,7 +69,7 @@ public abstract class WheelOfFortune extends Game{
         Random rand = new Random();
         int r= rand.nextInt(phraseList.size()); // gets 0, 1, or 2
         this.phrase = phraseList.get(r);
-        System.out.println(phrase);
+//        System.out.println(phrase);
         start++;
         return phrase;
     }

@@ -6,12 +6,9 @@ public class WheelOfFortuneUserGame extends WheelOfFortune{
     public GameRecord play(){
         super.randomPhrase();
         super.generateHiddenPhrase();
-        String userId = takeId();
-        super.play();
-        GameRecord record = new GameRecord((super.chance)*10, userId);
         super.chance = 10;
         phraseList.remove(phrase);
-        return record;
+        return super.play();
     }
 
     @Override
@@ -36,6 +33,7 @@ public class WheelOfFortuneUserGame extends WheelOfFortune{
                 return false;
             }
         }else{
+            System.out.println("We ran out phrase! Game Over!");
             return false;
         }
     }

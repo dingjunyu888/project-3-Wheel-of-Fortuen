@@ -17,7 +17,7 @@ public class WheelOfFortuneHighLevelPlayer implements WheelOfFortunePlayer{
     //an id for player
     @Override
     public String playerId(){
-        return "HOPlayer";
+        return "HLPlayer";
     }
     //reset the player to start a new game
     @Override

@@ -1,18 +1,25 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
-public class WheelOfFortuneUserGame extends WheelOfFortune{
+public abstract class WheelOfFortune extends Game{
+    List<String> phraseList;
+    String phrase = "";
+    String previousGuess = "";
+    String hiddenPhrase = "";
+
+    int chance = 10;
+    int start = 1;
     @Override
     public GameRecord play(){
-        super.randomPhrase();
-        super.generateHiddenPhrase();
         //
         //take user id
-        System.out.println("Please enter your ID:");
-        Scanner id = new Scanner(System.in);
-        String userId = id.nextLine();
+        String userId = takeId();
         StringBuilder updatedPhrase = new StringBuilder(hiddenPhrase);
         boolean notOver = true;
-        int chance = 10;
 
         System.out.println(hiddenPhrase);
         while(notOver && chance > 0){
@@ -40,38 +47,48 @@ public class WheelOfFortuneUserGame extends WheelOfFortune{
         }else{
             System.out.println("You Lose");
         }
-        phraseList.remove(phrase);
         GameRecord record = new GameRecord((chance)*10, userId);
         return record;
     }
 
-    @Override
-    public boolean playNext(){
-        if(phraseList.size() != 0) {
-            System.out.println("Do you want to play another game? Y/N");
-            Scanner myObj = new Scanner(System.in);
-            String answer = myObj.nextLine().toLowerCase();
-            if (answer.equals("y")) {
-                return true;
-            } else if (answer.equals("n")){
-                return false;
-            } else {
-                return false;
-            }
-        }else{
-            return false;
+    public abstract String takeId();
+
+    public void readPhrase(){
+        // Get the phrase from a file of phrases
+        try {
+            phraseList = Files.readAllLines(Paths.get("./phrases.txt"));
+        } catch (IOException e) {
+            System.out.println(e);
         }
     }
 
-    @Override
-    public char getGuess(String previousGuess){
-        Scanner myObj = new Scanner(System.in);
-        return myObj.nextLine().charAt(0);
+    public String randomPhrase(){
+        if(start == 1) {
+            readPhrase();
+        }
+        Random rand = new Random();
+        int r= rand.nextInt(phraseList.size()); // gets 0, 1, or 2
+        this.phrase = phraseList.get(r);
+        System.out.println(phrase);
+        start++;
+        return phrase;
     }
 
-    public static void main(String [] args) {
-        WheelOfFortuneUserGame games = new WheelOfFortuneUserGame();
-        AllGameRecord record = games.playAll();
-        System.out.println(record);  // or call specific functions of record
+    public String generateHiddenPhrase(){
+        previousGuess = "";
+        return hiddenPhrase = this.phrase.replaceAll("[A-Za-z]", "*");
     }
+
+    public StringBuilder processGuess(char guessInput, StringBuilder updatedPhrase){
+        for(int i = 0; i < updatedPhrase.length(); i++){
+            if(phrase.toLowerCase().charAt(i) == guessInput){
+                updatedPhrase.setCharAt(i, phrase.charAt(i));
+            }
+        }
+        return updatedPhrase;
+    }
+
+
+
+    public abstract char getGuess(String previousGuess);
 }
